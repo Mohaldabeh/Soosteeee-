@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Proposal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: url('https://www.w3schools.com/w3images/rose.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 192, 203, 0.7); /* Light pink overlay */
+            z-index: 1;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+        }
+
+        .question {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ff69b4; /* Hot pink color */
+        }
+
+        .button {
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .button-yes {
+            background-color: #ff6f61;
+            color: white;
+        }
+
+        .button-no {
+            background-color: #3f51b5;
+            color: white;
+            position: absolute; /* Changed to absolute for controlled movement */
+        }
+
+        .button-no:hover {
+            background-color: #303f9f;
+            transform: scale(1.1); /* Slight scaling effect on hover */
+        }
+
+        .message-box {
+            display: none;
+            background: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png') repeat, 
+                      url('https://www.transparenttextures.com/patterns/white-sparkle.png') repeat;
+            background-blend-mode: multiply;
+            background-size: cover;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            color: #ff6f61;
+            position: relative;
+            z-index: 3;
+            font-size: 20px;
+            font-weight: bold;
+            width: 80%;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        .message-box::before {
+            content: "💋💋💋💋💋💋💋💋💋💋";
+            position: absolute;
+            top: -30px;
+            left: 0;
+            right: 0;
+            font-size: 24px;
+            color: #ff69b4;
+            text-align: center;
+        }
+
+        .message-box::after {
+            content: "💖💖💖💖💖💖💖💖💖💖";
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            font-size: 24px;
+            color: #ff69b4;
+            text-align: center;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            color: #ff69b4;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 3;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100px);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh);
+            }
+        }
+
+        /* GIF positioning */
+        .gif-left, .gif-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px; /* Adjust size as needed */
+        }
+
+        .gif-left {
+            left: 10px;
+        }
+
+        .gif-right {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="question">Sarah, you're the best person i've ever met, and since the day i met you i felt in love with you, so do you accept to be with me forever?</div>
+        <button class="button button-yes" onclick="accept()">Yes</button>
+        <button class="button button-no" onclick="moveNo()">No</button>
+        <div id="message-box" class="message-box">
+            I'm so much happy that you agreed and I promise I'll make you the happiest girl in the world❤❤❤
+        </div>
+    </div>
+
+    <!-- GIFs -->
+    <img src="URL_OF_YOUR_LEFT_GIF" alt="Left GIF" class="gif-left">
+    <img src="URL_OF_YOUR_RIGHT_GIF" alt="Right GIF" class="gif-right">
+
+    <script>
+        function accept() {
+            // Show the message box
+            document.getElementById('message-box').style.display = 'block';
+
+            // Create and animate hearts
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.fontSize = `${Math.random() * 20 + 20}px`;
+                heart.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(heart);
+
+                // Remove the heart after animation
+                heart.addEventListener('animationend', () => {
+                    heart.remove();
+                });
+            }
+        }
+
+        function moveNo() {
+            const buttonNo = document.querySelector('.button-no');
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+
+            const centerX = containerRect.width / 2;
+            const centerY = containerRect.height / 2;
+            const range = 100; // Range in pixels around the center
+
+            const randomX = centerX - (buttonNo.offsetWidth / 2) + (Math.random() * range * 2 - range);
+            const randomY = centerY - (buttonNo.offsetHeight / 2) + (Math.random() * range * 2 - range);
+
+            buttonNo.style.left = `${Math.max(0, Math.min(randomX, containerRect.width - buttonNo.offsetWidth))}px`;
+            buttonNo.style.top = `${Math.max(0, Math.min(randomY, containerRect.height - buttonNo.offsetHeight))}px`;
+        }
+    </script>
+</body>
+</html>
